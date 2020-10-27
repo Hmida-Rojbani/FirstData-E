@@ -7,28 +7,32 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import de.tekup.rest.data.models.AddressEntity;
 import de.tekup.rest.data.models.PersonEntity;
+import de.tekup.rest.data.repositories.AddressRepository;
 import de.tekup.rest.data.repositories.PersonRepository;
 
 @Service
 public class PersonServiceImpl implements PersonService {
 	
-	private PersonRepository repos;
+	private PersonRepository reposPerson;
+	private AddressRepository reposAddress;
 	
 	@Autowired
-	public PersonServiceImpl(PersonRepository repos) {
+	public PersonServiceImpl(PersonRepository reposPerson, AddressRepository reposAddress) {
 		super();
-		this.repos = repos;
+		this.reposPerson = reposPerson;
+		this.reposAddress = reposAddress;
 	}
 
 	@Override
 	public List<PersonEntity> getAllEntities() {
-		return repos.findAll();
+		return reposPerson.findAll();
 	}
 
 	@Override
 	public PersonEntity getEntityById(long id) {
-		Optional<PersonEntity> opt = repos.findById(id);
+		Optional<PersonEntity> opt = reposPerson.findById(id);
 		PersonEntity entity;
 		if(opt.isPresent())
 			entity= opt.get();
@@ -39,7 +43,12 @@ public class PersonServiceImpl implements PersonService {
 
 	@Override
 	public PersonEntity createPerson(PersonEntity entity) {
-		return repos.save(entity);
+		AddressEntity address = entity.getAddress();
+		reposAddress.save(address);
+		address.setPerson(entity);
+		entity = reposPerson.save(entity);
+		System.err.println(address);
+		return entity;
 	}
 
 	@Override
@@ -52,13 +61,13 @@ public class PersonServiceImpl implements PersonService {
 		if(newEntity.getAddress() != null)
 			entity.setAddress(newEntity.getAddress());
 		
-		return repos.save(entity);
+		return reposPerson.save(entity);
 	}
 
 	@Override
 	public PersonEntity deletePersonById(long id) {
 		PersonEntity entity = this.getEntityById(id);
-		repos.deleteById(id);
+		reposPerson.deleteById(id);
 		return entity;
 	}
 
