@@ -41,6 +41,11 @@ public class PersonRest {
 		return service.getEntityById(id);
 	}
 	
+	@GetMapping("/operator/{oprt}")
+	public List<PersonEntity> getByOperator(@PathVariable("oprt") String operator) {
+		return service.getAllByOperator(operator);
+	}
+	
 	@PostMapping
 	public PersonEntity createPerson(@RequestBody PersonEntity person) {
 		return service.createPerson(person);

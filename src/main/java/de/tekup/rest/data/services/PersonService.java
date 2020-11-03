@@ -11,5 +11,5 @@ public interface PersonService {
 	PersonEntity createPerson(PersonEntity entity);
 	PersonEntity modifyPerson(long id, PersonEntity newEntity);
 	PersonEntity deletePersonById(long id);
-
+	public List<PersonEntity> getAllByOperator(String operator);
 }

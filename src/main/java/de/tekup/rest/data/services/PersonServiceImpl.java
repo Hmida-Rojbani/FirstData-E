@@ -158,5 +158,10 @@ public class PersonServiceImpl implements PersonService {
 		reposPerson.deleteById(id);
 		return entity;
 	}
+	
+	// All persons with a given operator
+	public List<PersonEntity> getAllByOperator(String operator){
+		return null;
+	}
 
 }
