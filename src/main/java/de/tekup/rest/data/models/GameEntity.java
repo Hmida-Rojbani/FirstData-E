@@ -11,11 +11,13 @@ import javax.persistence.ManyToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 @Entity
 @Getter@Setter
+@EqualsAndHashCode(of = {"title","type"})
 public class GameEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,5 +29,5 @@ public class GameEntity {
 	@ManyToMany
 	@JoinTable(name = "playedBy")
 	@JsonIgnore
-	List<PersonEntity> persons;
+	private List<PersonEntity> persons;
 }
