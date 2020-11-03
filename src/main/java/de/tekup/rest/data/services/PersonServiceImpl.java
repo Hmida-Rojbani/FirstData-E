@@ -46,6 +46,7 @@ public class PersonServiceImpl implements PersonService {
 		return entity;
 	}
 
+	// consider the games in the saving
 	@Override
 	public PersonEntity createPerson(PersonEntity personRequest) {
 		// save address
@@ -57,12 +58,14 @@ public class PersonServiceImpl implements PersonService {
 		System.err.println(address);
 		// save phones
 		List<TelephoneNumberEntity> phones = personRequest.getPhones();
-		
-		for (TelephoneNumberEntity phone : phones) {
+		// version 1
+		/*for (TelephoneNumberEntity phone : phones) {
 			phone.setPerson(personInBase);
 			reposPhone.save(phone);
-		}
-		
+		}*/
+		// version 2 Java 8
+		phones.forEach(phone -> phone.setPerson(personInBase));
+		reposPhone.saveAll(phones);
 		return personRequest;
 	}
 

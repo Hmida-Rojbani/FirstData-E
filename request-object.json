@@ -1,19 +1,29 @@
 {
-	"name":"pers3",
+	"name": "pers3",
 	"dateOfBirth": "1999-08-23",
-	"address":{
-		"number":22,
-		"street":"ste.",
-		"city":"Ariana"
+	"address": {
+		"number": 22,
+		"street": "ste.",
+		"city": "Ariana"
 	},
-    "phones": [
-    	{
-    		"number": "55555555",
-    		"operator": "Orange"
-    	},
-    	{
-    		"number": "22222222",
-    		"operator": "Oredoo"
-    	}
-    	]
+	"phones": [
+		{
+			"number": "55555555",
+			"operator": "Orange"
+		},
+		{
+			"number": "22222222",
+			"operator": "Oredoo"
+		}
+	],
+	"games": [
+		{
+			"title": "Fifa2020",
+			"type": "football"
+		},
+		{
+			"title": "POP",
+			"type": "advanture"
+		}
+	]
 }
