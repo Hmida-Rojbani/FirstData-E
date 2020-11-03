@@ -19,19 +19,19 @@ import de.tekup.rest.data.repositories.TelephoneNumberRepository;
 
 @Service
 public class PersonServiceImpl implements PersonService {
-	
+
 	private PersonRepository reposPerson;
 	private AddressRepository reposAddress;
 	private TelephoneNumberRepository reposPhone;
 	private GameRepository reposGame;
-	
+
 	@Autowired
 	public PersonServiceImpl(PersonRepository reposPerson, AddressRepository reposAddress,
-			TelephoneNumberRepository reposPhone,GameRepository reposGame) {
+			TelephoneNumberRepository reposPhone, GameRepository reposGame) {
 		super();
 		this.reposPerson = reposPerson;
 		this.reposAddress = reposAddress;
-		this.reposPhone =  reposPhone;
+		this.reposPhone = reposPhone;
 		this.reposGame = reposGame;
 	}
 
@@ -44,8 +44,8 @@ public class PersonServiceImpl implements PersonService {
 	public PersonEntity getEntityById(long id) {
 		Optional<PersonEntity> opt = reposPerson.findById(id);
 		PersonEntity entity;
-		if(opt.isPresent())
-			entity= opt.get();
+		if (opt.isPresent())
+			entity = opt.get();
 		else
 			throw new NoSuchElementException("Person with this Id is not found");
 		return entity;
@@ -64,60 +64,91 @@ public class PersonServiceImpl implements PersonService {
 		// save phones
 		List<TelephoneNumberEntity> phones = personRequest.getPhones();
 		// version 1
-		/*for (TelephoneNumberEntity phone : phones) {
-			phone.setPerson(personInBase);
-			reposPhone.save(phone);
-		}*/
+		/*
+		 * for (TelephoneNumberEntity phone : phones) { phone.setPerson(personInBase);
+		 * reposPhone.save(phone); }
+		 */
 		// version 2 Java 8
 		phones.forEach(phone -> phone.setPerson(personInBase));
 		reposPhone.saveAll(phones);
-		
+
 		boolean found;
 		List<GameEntity> games = personRequest.getGames();
 		List<GameEntity> gamesInBase = reposGame.findAll();
 		for (GameEntity game : games) {
-			found=false;
+			found = false;
 			for (GameEntity gameInBase : gamesInBase) {
-				if(game.equals(gameInBase)) {
+				if (game.equals(gameInBase)) {
 					gameInBase.getPersons().add(personInBase);
 					reposGame.save(gameInBase);
-					found=true;
+					found = true;
 					break;
 				}
 			}
-			if(found == false) {
+			if (found == false) {
 				List<PersonEntity> persons = new ArrayList<>();
 				persons.add(personInBase);
 				game.setPersons(persons);
 				reposGame.save(game);
 			}
 		}
-		
-		
+
 		return personRequest;
 	}
 
 	@Override
 	public PersonEntity modifyPerson(long id, PersonEntity newPerson) {
+		// is there a better (3 point bonus DS)
 		PersonEntity oldPerson = this.getEntityById(id);
-		if(newPerson.getName() != null)
+		if (newPerson.getName() != null)
 			oldPerson.setName(newPerson.getName());
-		if(newPerson.getDateOfBirth() != null)
+		if (newPerson.getDateOfBirth() != null)
 			oldPerson.setDateOfBirth(newPerson.getDateOfBirth());
 		// Correct Address Part
 		AddressEntity newAddress = newPerson.getAddress();
 		AddressEntity oldAddress = oldPerson.getAddress();
-		if( newAddress != null) {
-			if(newAddress.getNumber() != 0)
+		if (newAddress != null) {
+			if (newAddress.getNumber() != 0)
 				oldAddress.setNumber(newAddress.getNumber());
-			if(newAddress.getStreet() != null)
+			if (newAddress.getStreet() != null)
 				oldAddress.setStreet(newAddress.getStreet());
-			if(newAddress.getCity() != null)
+			if (newAddress.getCity() != null)
 				oldAddress.setCity(newAddress.getCity());
 		}
-			
+
 		// Consider Phone and Game
+		List<TelephoneNumberEntity> oldPhones = oldPerson.getPhones();
+		List<TelephoneNumberEntity> newPhones = newPerson.getPhones();
+		if (newPhones != null) {
+			for (TelephoneNumberEntity newPhone : newPhones) {
+				for (TelephoneNumberEntity oldPhone : oldPhones) {
+					if (oldPhone.getId() == newPhone.getId()) {
+						if (newPhone.getNumber() != null)
+							oldPhone.setNumber(newPhone.getNumber());
+						if (newPhone.getOperator() != null)
+							oldPhone.setOperator(newPhone.getOperator());
+					}
+				}
+			}
+		}
 		
+		// Game 
+		List<GameEntity> oldGames = oldPerson.getGames();
+		List<GameEntity> newGames = newPerson.getGames();
+		
+		if(newGames != null) {
+			for (GameEntity newGame : newGames) {
+				for (GameEntity oldGame : oldGames) {
+					if(oldGame.getId() == newGame.getId()) {
+						if(newGame.getTitle() != null)
+							oldGame.setTitle(newGame.getTitle());
+						if(newGame.getType() != null)
+							oldGame.setType(newGame.getType());
+					}
+				}
+			}
+		}
+
 		return reposPerson.save(oldPerson);
 	}
 
