@@ -256,7 +256,29 @@ public class PersonServiceImpl implements PersonService {
 	
 	// Display the games type and the number of games for each type
 	public List<GameType> getTypeWithNumber(){
-		return null;
+		List<GameType> gamesType = new ArrayList<>();
+		List<GameEntity> games = reposGame.findAll();
+		
+		// A x
+		// B y
+		// A z
+		// A z1
+		for (GameEntity game : games) {
+			GameType  gameType = new GameType(game.getType(), 1);
+			if(gamesType.contains(gameType)) {
+				GameType gameInList = gamesType.get(gamesType.indexOf(gameType));
+				gameInList.increment();
+			} else {
+				gamesType.add(gameType);
+			}
+		}
+		
+		//List //  1 gt(A,1)
+		// list gt(A,1) // 2 gt(B,1)
+		// list gt(A,2); gt(B,1) // 3 gt(A,1)
+		// list gt(A,3); gt(B,1) // 4 gt(A,1)
+		
+		return gamesType;
 	}
 	// return a person by name 
 
