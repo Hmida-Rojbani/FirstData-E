@@ -51,6 +51,11 @@ public class PersonRest {
 		return service.getAverageAge();
 	}
 	
+	@GetMapping("/type/most")
+	public List<PersonEntity> getPersonMostTypePlayed() {
+		return service.getMostTypePlayed();
+	}
+	
 	@PostMapping
 	public PersonEntity createPerson(@RequestBody PersonEntity person) {
 		return service.createPerson(person);

@@ -222,6 +222,9 @@ public class PersonServiceImpl implements PersonService {
 	}
 	
 	//Persons who play the type of game the most played.
+	public List<PersonEntity> getMostTypePlayed(){
+		return null;
+	}
 	
 	// Display the games type and the number of games for each type
 	
