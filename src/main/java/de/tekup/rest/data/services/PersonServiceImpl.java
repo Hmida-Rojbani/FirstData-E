@@ -228,16 +228,21 @@ public class PersonServiceImpl implements PersonService {
 		Map<String, Set<PersonEntity>> map = new HashMap<>();
 		List<GameEntity> games = reposGame.findAll();
 		
+		// create a map key -> type ; value -> list of persons play this type
 		for (GameEntity game : games) {
+			// check if type is exist in the map as a key
 			if(map.containsKey(game.getType())) {
+				// if exist add the persons of the current game to the value of the type
 				map.get(game.getType()).addAll(game.getPersons());
 			}else {
+				// if not exist 
+				// create a key with type and assign the list of person as value
 				map.put(game.getType(), new HashSet<>(game.getPersons()));
 			}
 		}
 		
 		List<PersonEntity> persons = new ArrayList<>();
-		
+		// find the longest set to returned to the user (like search a max)
 		for (Set<PersonEntity> set : map.values()) {
 			if(set.size() > persons.size()) {
 				persons = new ArrayList<>(set);
