@@ -18,5 +18,8 @@ insert into person (id, address_id, date_of_birth, person_name) values (3, 3, '1
 insert into telephone_number_entity (id, number, operator, person_id) values (5, '53333333', 'Orange', 3);
 insert into telephone_number_entity (id, number, operator, person_id) values (6, '55333333', 'Orange', 3);
 insert into game_entity (id, title, type) values (4, 'PES2020', 'football');
+insert into game_entity (id, title, type) values (5, 'Room', 'puzzle');
 insert into played_by (games_id, persons_id) values (1, 3);
 insert into played_by (games_id, persons_id) values (4, 3);
+insert into played_by (games_id, persons_id) values (5, 3);
+insert into played_by (games_id, persons_id) values (3, 3);

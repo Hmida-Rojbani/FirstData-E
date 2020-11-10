@@ -3,8 +3,10 @@ package de.tekup.rest.data.services;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.OptionalDouble;
@@ -223,7 +225,27 @@ public class PersonServiceImpl implements PersonService {
 	
 	//Persons who play the type of game the most played.
 	public List<PersonEntity> getMostTypePlayed(){
-		return null;
+		Map<String, Set<PersonEntity>> map = new HashMap<>();
+		List<GameEntity> games = reposGame.findAll();
+		
+		for (GameEntity game : games) {
+			if(map.containsKey(game.getType())) {
+				map.get(game.getType()).addAll(game.getPersons());
+			}else {
+				map.put(game.getType(), new HashSet<>(game.getPersons()));
+			}
+		}
+		
+		List<PersonEntity> persons = new ArrayList<>();
+		
+		for (Set<PersonEntity> set : map.values()) {
+			if(set.size() > persons.size()) {
+				persons = new ArrayList<>(set);
+			}
+		}
+		
+		
+		return persons;
 	}
 	
 	// Display the games type and the number of games for each type

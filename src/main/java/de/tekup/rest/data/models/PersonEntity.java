@@ -20,7 +20,7 @@ import lombok.ToString;
 @Data
 @Entity
 @Table(name = "Person")
-@ToString(exclude = "address")
+@ToString(exclude = {"address","phones","games"})
 public class PersonEntity {
 	
 	@Id
