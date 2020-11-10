@@ -281,5 +281,14 @@ public class PersonServiceImpl implements PersonService {
 		return gamesType;
 	}
 	// return a person by name 
+	public PersonEntity getByName(String name) {
+		List<PersonEntity> persons = reposPerson.findAll();
+		
+		for (PersonEntity person : persons) {
+			if(person.getName().equalsIgnoreCase(name))
+				return person;
+		}
+		throw new NoSuchElementException("Person with this Name is not found");
+	}
 
 }

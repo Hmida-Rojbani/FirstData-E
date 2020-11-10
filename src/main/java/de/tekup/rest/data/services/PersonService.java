@@ -24,4 +24,6 @@ public interface PersonService {
 	public List<PersonEntity> getMostTypePlayed();
 	
 	public List<GameType> getTypeWithNumber();
+	
+	public PersonEntity getByName(String name);
 }
