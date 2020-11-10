@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import de.tekup.rest.data.dto.GameType;
 import de.tekup.rest.data.models.PersonEntity;
 import de.tekup.rest.data.services.PersonService;
 
@@ -54,6 +55,11 @@ public class PersonRest {
 	@GetMapping("/type/most")
 	public List<PersonEntity> getPersonMostTypePlayed() {
 		return service.getMostTypePlayed();
+	}
+	
+	@GetMapping("/type/number")
+	public List<GameType> getTypeAndNumber() {
+		return service.getTypeWithNumber();
 	}
 	
 	@PostMapping

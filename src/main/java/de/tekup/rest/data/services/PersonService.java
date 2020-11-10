@@ -2,6 +2,7 @@ package de.tekup.rest.data.services;
 
 import java.util.List;
 
+import de.tekup.rest.data.dto.GameType;
 import de.tekup.rest.data.models.PersonEntity;
 
 public interface PersonService {
@@ -21,4 +22,6 @@ public interface PersonService {
 	public double getAverageAge();
 
 	public List<PersonEntity> getMostTypePlayed();
+	
+	public List<GameType> getTypeWithNumber();
 }
