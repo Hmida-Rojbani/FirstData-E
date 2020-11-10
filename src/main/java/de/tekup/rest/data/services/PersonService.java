@@ -12,4 +12,5 @@ public interface PersonService {
 	PersonEntity modifyPerson(long id, PersonEntity newEntity);
 	PersonEntity deletePersonById(long id);
 	public List<PersonEntity> getAllByOperator(String operator);
+	public double getAverageAge() ;
 }

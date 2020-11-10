@@ -46,6 +46,11 @@ public class PersonRest {
 		return service.getAllByOperator(operator);
 	}
 	
+	@GetMapping("/average/age")
+	public double getAverageAgePersons() {
+		return service.getAverageAge();
+	}
+	
 	@PostMapping
 	public PersonEntity createPerson(@RequestBody PersonEntity person) {
 		return service.createPerson(person);

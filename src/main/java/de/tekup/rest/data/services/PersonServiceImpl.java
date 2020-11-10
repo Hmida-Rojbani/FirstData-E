@@ -1,5 +1,6 @@
 package de.tekup.rest.data.services;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -193,5 +194,17 @@ public class PersonServiceImpl implements PersonService {
 													 .collect(Collectors.toList());
 		return new ArrayList<>(returnPersons) ;
 	}
+	
+	// Average age of all Persons
+	public double getAverageAge() {
+		LocalDate now = LocalDate.now();
+		return 0;
+	}
+	
+	//Persons who play the type of game the most played.
+	
+	// Display the games type and the number of games for each type
+	
+	// return a person by name 
 
 }
