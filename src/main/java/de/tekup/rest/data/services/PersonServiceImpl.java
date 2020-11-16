@@ -282,13 +282,26 @@ public class PersonServiceImpl implements PersonService {
 	}
 	// return a person by name 
 	public PersonEntity getByName(String name) {
-		List<PersonEntity> persons = reposPerson.findAll();
+		/*List<PersonEntity> persons = reposPerson.findAll();
 		
 		for (PersonEntity person : persons) {
 			if(person.getName().equalsIgnoreCase(name))
 				return person;
 		}
 		throw new NoSuchElementException("Person with this Name is not found");
+		*/
+		// version with a stream
+		/*
+		  return reposPerson.findAll().stream()
+		
+							.filter(p -> p.getName().equalsIgnoreCase(name))
+							.findFirst()
+							.orElseThrow(()-> new NoSuchElementException("Person with this Name is not found"));
+		 */
+	
+		// version with query
+		return reposPerson.findByNameIgnoreCase(name)
+				.orElseThrow(()-> new NoSuchElementException("Person with this Name is not found"));
 	}
 
 }
