@@ -191,13 +191,14 @@ public class PersonServiceImpl implements PersonService {
 			}
 		}*/
 		// version 3 java 8
-		List<PersonEntity> returnPersons = reposPhone.findAll()
+		/*List<PersonEntity> returnPersons = reposPhone.findAll()
 													 .stream()
 													 .filter(phone -> phone.getOperator().equalsIgnoreCase(operator))
 													 .map(phone -> phone.getPerson())
 													 .distinct()
 													 .collect(Collectors.toList());
-		return new ArrayList<>(returnPersons) ;
+		return new ArrayList<>(returnPersons) ;*/
+		return reposPhone.getPersonsWithOperator(operator);
 	}
 	
 	// Average age of all Persons
