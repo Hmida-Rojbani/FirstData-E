@@ -13,10 +13,12 @@ import java.util.OptionalDouble;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import de.tekup.rest.data.dto.GameType;
+import de.tekup.rest.data.dto.PersonReponse;
 import de.tekup.rest.data.models.AddressEntity;
 import de.tekup.rest.data.models.GameEntity;
 import de.tekup.rest.data.models.PersonEntity;
@@ -33,6 +35,7 @@ public class PersonServiceImpl implements PersonService {
 	private AddressRepository reposAddress;
 	private TelephoneNumberRepository reposPhone;
 	private GameRepository reposGame;
+	private ModelMapper mapper = new ModelMapper();
 
 	@Autowired
 	public PersonServiceImpl(PersonRepository reposPerson, AddressRepository reposAddress,
@@ -50,7 +53,18 @@ public class PersonServiceImpl implements PersonService {
 	}
 
 	@Override
-	public PersonEntity getEntityById(long id) {
+	public PersonReponse getEntityById(long id) {
+		Optional<PersonEntity> opt = reposPerson.findById(id);
+		PersonEntity entity;
+		if (opt.isPresent())
+			entity = opt.get();
+		else
+			throw new NoSuchElementException("Person with this Id is not found");
+		return mapper.map(entity, PersonReponse.class);
+	}
+	
+	
+	private PersonEntity getPersonEntityById(long id) {
 		Optional<PersonEntity> opt = reposPerson.findById(id);
 		PersonEntity entity;
 		if (opt.isPresent())
@@ -108,7 +122,7 @@ public class PersonServiceImpl implements PersonService {
 	@Override
 	public PersonEntity modifyPerson(long id, PersonEntity newPerson) {
 		// is there a better (3 point bonus DS)
-		PersonEntity oldPerson = this.getEntityById(id);
+		PersonEntity oldPerson = this.getPersonEntityById(id);
 		if (newPerson.getName() != null)
 			oldPerson.setName(newPerson.getName());
 		if (newPerson.getDateOfBirth() != null)
@@ -163,7 +177,7 @@ public class PersonServiceImpl implements PersonService {
 
 	@Override
 	public PersonEntity deletePersonById(long id) {
-		PersonEntity entity = this.getEntityById(id);
+		PersonEntity entity = this.getPersonEntityById(id);
 		reposPerson.deleteById(id);
 		return entity;
 	}

@@ -1,6 +1,7 @@
 package de.tekup.rest.data.models;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -39,5 +40,12 @@ public class PersonEntity {
 	
 	@ManyToMany(mappedBy = "persons",cascade = CascadeType.REMOVE)
 	private List<GameEntity> games;
+	
+	public int getAge() {
+		return (int) ChronoUnit.YEARS.between(dateOfBirth, LocalDate.now());
+	}
 
+	public String getFullAddress() {
+		return address.getNumber()+" "+address.getStreet()+", "+address.getCity()+".";
+	}
 }

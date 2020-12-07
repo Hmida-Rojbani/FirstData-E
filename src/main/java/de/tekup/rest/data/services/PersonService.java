@@ -3,13 +3,14 @@ package de.tekup.rest.data.services;
 import java.util.List;
 
 import de.tekup.rest.data.dto.GameType;
+import de.tekup.rest.data.dto.PersonReponse;
 import de.tekup.rest.data.models.PersonEntity;
 
 public interface PersonService {
 
 	List<PersonEntity> getAllEntities();
 
-	PersonEntity getEntityById(long id);
+	PersonReponse getEntityById(long id);
 
 	PersonEntity createPerson(PersonEntity entity);
 
