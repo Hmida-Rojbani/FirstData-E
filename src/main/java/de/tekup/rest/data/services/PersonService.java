@@ -4,6 +4,7 @@ import java.util.List;
 
 import de.tekup.rest.data.dto.GameType;
 import de.tekup.rest.data.dto.PersonReponse;
+import de.tekup.rest.data.dto.PersonRequest;
 import de.tekup.rest.data.models.PersonEntity;
 
 public interface PersonService {
@@ -12,7 +13,7 @@ public interface PersonService {
 
 	PersonReponse getEntityById(long id);
 
-	PersonEntity createPerson(PersonEntity entity);
+	PersonReponse createPerson(PersonRequest entity);
 
 	PersonEntity modifyPerson(long id, PersonEntity newEntity);
 

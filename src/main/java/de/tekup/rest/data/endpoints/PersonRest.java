@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import de.tekup.rest.data.dto.GameType;
 import de.tekup.rest.data.dto.PersonReponse;
+import de.tekup.rest.data.dto.PersonRequest;
 import de.tekup.rest.data.models.PersonEntity;
 import de.tekup.rest.data.services.PersonService;
 
@@ -64,7 +65,7 @@ public class PersonRest {
 	}
 	
 	@PostMapping
-	public PersonEntity createPerson(@RequestBody PersonEntity person) {
+	public PersonReponse createPerson(@RequestBody PersonRequest person) {
 		return service.createPerson(person);
 	}
 	

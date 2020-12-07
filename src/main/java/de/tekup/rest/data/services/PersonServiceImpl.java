@@ -11,7 +11,6 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import de.tekup.rest.data.dto.GameType;
 import de.tekup.rest.data.dto.PersonReponse;
+import de.tekup.rest.data.dto.PersonRequest;
 import de.tekup.rest.data.models.AddressEntity;
 import de.tekup.rest.data.models.GameEntity;
 import de.tekup.rest.data.models.PersonEntity;
@@ -76,8 +76,10 @@ public class PersonServiceImpl implements PersonService {
 
 	// consider the games in the saving
 	@Override
-	public PersonEntity createPerson(PersonEntity personRequest) {
+	public PersonReponse createPerson(PersonRequest request) {
 		// save address
+		// request -> entity
+		PersonEntity personRequest = mapper.map(request, PersonEntity.class);
 		AddressEntity address = personRequest.getAddress();
 		reposAddress.save(address);
 		address.setPerson(personRequest);
@@ -92,12 +94,14 @@ public class PersonServiceImpl implements PersonService {
 		 * reposPhone.save(phone); }
 		 */
 		// version 2 Java 8
+		if(phones != null) {
 		phones.forEach(phone -> phone.setPerson(personInBase));
 		reposPhone.saveAll(phones);
-
+		}
 		boolean found;
 		List<GameEntity> games = personRequest.getGames();
 		List<GameEntity> gamesInBase = reposGame.findAll();
+		if(games != null) {
 		for (GameEntity game : games) {
 			found = false;
 			for (GameEntity gameInBase : gamesInBase) {
@@ -114,9 +118,9 @@ public class PersonServiceImpl implements PersonService {
 				game.setPersons(persons);
 				reposGame.save(game);
 			}
-		}
+		}}
 
-		return personRequest;
+		return mapper.map(personRequest, PersonReponse.class);
 	}
 
 	@Override

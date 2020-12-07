@@ -15,6 +15,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.modelmapper.ModelMapper;
+
+import de.tekup.rest.data.dto.AddressRequest;
 import lombok.Data;
 import lombok.ToString;
 
@@ -47,5 +50,10 @@ public class PersonEntity {
 
 	public String getFullAddress() {
 		return address.getNumber()+" "+address.getStreet()+", "+address.getCity()+".";
+	}
+	
+	public void setAddressReq(AddressRequest addressReq) {
+		ModelMapper mapper = new ModelMapper();
+		this.address = mapper.map(addressReq, AddressEntity.class);
 	}
 }
