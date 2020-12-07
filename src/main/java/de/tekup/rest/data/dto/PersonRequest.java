@@ -2,6 +2,7 @@ package de.tekup.rest.data.dto;
 
 import java.time.LocalDate;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
@@ -17,10 +18,10 @@ import lombok.NoArgsConstructor;
 public class PersonRequest {
 	@NotBlank(message = "Name must contain characters")
 	@Size(min = 5, max = 50)
-	@Pattern(regexp = "[a-zA-Z ]+")
+	@Pattern(regexp = "[a-zA-Z ]+", message =  "Name must contain only characters")
 	private String name;
 	@Past
 	private LocalDate dateOfBirth;
-	
+	@Valid
 	private AddressRequest addressReq;
 }
